@@ -12,6 +12,7 @@ class QuestionDatabase < SQLite3::Database
 end
 
 class User
+  attr_accessor :fname, :lname
   def self.find_by_id(id)
     user = QuestionDatabase.instance.execute(<<-SQL, id)
       SELECT
@@ -34,6 +35,7 @@ class User
 end
 
 class Question
+  attr_accessor :title, :body, :author_id
   def self.find_by_id(id)
     question = QuestionDatabase.instance.execute(<<-SQL, id)
       SELECT
@@ -57,6 +59,7 @@ class Question
 end
 
 class QuestionFollow
+  attr_accessor :user_id, :question_id
   def self.find_by_id(id)
     question_follow = QuestionDatabase.instance.execute(<<-SQL, id)
       SELECT
@@ -79,6 +82,8 @@ class QuestionFollow
 end
 
 class Reply
+  attr_accessor :question_id, :reply_id, :user_id, :body
+
   def self.find_by_id(id)
     reply = QuestionDatabase.instance.execute(<<-SQL, id)
       SELECT
@@ -103,6 +108,8 @@ class Reply
 end
 
 class QuestionLike
+  attr_accessor :likes, :user_id, :question_id
+
   def self.find_by_id(id)
     question_like = QuestionDatabase.instance.execute(<<-SQL, id)
       SELECT

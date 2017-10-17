@@ -45,3 +45,16 @@ CREATE TABLE question_likes (
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (question_id) REFERENCES questions(id)
 );
+
+INSERT INTO
+  users (fname, lname)
+VALUES
+  ('Jay', 'Park'),
+  ('Brandt', 'Sheets');
+
+
+INSERT INTO
+  questions (title, body, author_id)
+VALUES
+  ('say hello', 'hello from Jay', 1),
+  ('say world', 'world from Brandt', 2);
