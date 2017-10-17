@@ -68,6 +68,27 @@ class User
     karma.first['karma']
   end
 
+  def save
+    if @id #update
+      QuestionDatabase.instance.execute(<<-SQL, @fname, @lname, @id)
+        UPDATE
+          users
+        SET
+          fname = ?, lname = ?
+        WHERE
+          id = ?
+      SQL
+    else #create
+      QuestionDatabase.instance.execute(<<-SQL, @fname, @lname)
+        INSERT INTO
+          users (fname, lname)
+        VALUES
+          (?, ?)
+      SQL
+      @id = QuestionDatabase.instance.last_insert_row_id
+    end
+  end
+
   def initialize(options)
     @id = options['id']
     @fname = options['fname']

@@ -61,7 +61,6 @@ class Reply
   end
 
   def child_replies
-
     reply = QuestionDatabase.instance.execute(<<-SQL, @id)
       SELECT
         *
@@ -74,6 +73,28 @@ class Reply
     return nil if reply.empty?
     Reply.new(reply.first)
   end
+
+  def save
+    if @id #update
+      QuestionDatabase.instance.execute(<<-SQL, @question_id, @reply_id, @user_id, @body, @id)
+        UPDATE
+          replies
+        SET
+          question_id = ?, reply_id = ?, user_id = ?, body = ?
+        WHERE
+          id = ?
+      SQL
+    else #create
+      QuestionDatabase.instance.execute(<<-SQL, @question_id, @reply_id, @user_id, @body)
+        INSERT INTO
+          replies (question_id, reply_id, user_id, body)
+        VALUES
+          (?, ?, ?, ?)
+      SQL
+      @id = QuestionDatabase.instance.last_insert_row_id
+    end
+  end
+
 
   def initialize(options)
     @id = options['id']

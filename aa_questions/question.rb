@@ -65,6 +65,27 @@ class Question
     QuestionLike.most_liked_questions(n)
   end
 
+  def save
+    if @id #update
+      QuestionDatabase.instance.execute(<<-SQL, @title, @body, @author_id, @id)
+        UPDATE
+          questions
+        SET
+          title = ?, body = ?, author_id
+        WHERE
+          id = ?
+      SQL
+    else #create
+      QuestionDatabase.instance.execute(<<-SQL, @title, @body, @author_id)
+        INSERT INTO
+          questions (title, body, author_id)
+        VALUES
+          (?, ?, ?)
+      SQL
+      @id = QuestionDatabase.instance.last_insert_row_id
+    end
+  end
+
   def initialize(options)
     @id = options['id']
     @title = options['title']
