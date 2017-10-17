@@ -50,19 +50,30 @@ INSERT INTO
   users (fname, lname)
 VALUES
   ('Jay', 'Park'),
-  ('Brandt', 'Sheets');
+  ('Brandt', 'Sheets'),
+  ('Does', 'Nothing');
 
 
 INSERT INTO
   questions (title, body, author_id)
 VALUES
   ('say hello', 'hello from Jay', 1),
-  ('say world', 'world from Brandt', 2);
+  ('say world', 'world from Brandt', 2),
+  ('unfollowed', 'nobody follows this', 3);
 
 INSERT INTO
   question_follows (user_id, question_id)
 VALUES
   (1, 1),
   (1, 2),
+  (1, 3),
   (2, 1),
-  (2, 2);
+  (2, 2),
+  (3, 3);
+
+INSERT INTO
+  question_likes (user_id, question_id)
+VALUES
+  (1, 1),
+  (2, 1),
+  (3, 1);

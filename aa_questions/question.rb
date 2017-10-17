@@ -31,6 +31,12 @@ class Question
     Question.new(question.first)
   end
 
+  def self.most_followed(n)
+    QuestionFollow.most_followed_questions(n)
+  end
+
+
+
   def replies
     Reply.find_by_question_id(@id)
   end
@@ -41,6 +47,18 @@ class Question
 
   def followers
     QuestionFollow.followers_for_question_id(@id)
+  end
+
+  def likers
+    QuestionLike.likers_for_question_id(@id)
+  end
+
+  # def names_of_likers
+  #   likers.map { |user| [user.fname, user.lname] }
+  # end
+
+  def num_likes
+    QuestionLike.num_likes_for_question_id(@id)
   end
 
   def initialize(options)
