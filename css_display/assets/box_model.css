@@ -1,9 +1,14 @@
 /* Introduction to Cascading Style Sheets */
-
+/**{
+  border: 1px solid black !important;
+}*/
 body {
   /* If the user cannot load the Arial font, the sans-serif font is used */
   font-family: Arial, sans-serif;
   background-color: #FEFFF1;
+  width: 900px;
+  margin: 0 auto;
+  /*margin: 0;*/
 }
 
 h1 {
@@ -49,10 +54,12 @@ input[type="radio"] {
     height: 27px;
     background-image: url(../assets/stars.png);
     vertical-align: bottom;
+    display: inline;
 }
 
 input[type="radio"]:checked {
   background-position: 30px 30px;
+
 }
 
 
@@ -72,3 +79,53 @@ h2 + .user_review {
     border-top: 1px solid black;
 }
 
+nav {
+  display: inline-block;
+}
+
+nav li {
+  display: inline-block;
+}
+
+nav li a {
+  display: block;
+  padding: 20px;
+}
+
+section {
+  display: inline-block;
+  width: 700px;
+}
+
+aside {
+  display: inline-block;
+  width: 180px;
+  margin-right: 10px;
+}
+
+.ingredients-list li {
+  /*margin-top: 15px;
+  margin-bottom: 15px;*/
+  margin: 15px 0 15px 0;
+}
+
+ol li {
+  margin: 15px 0 15px 0;
+}
+
+input {
+  display: block;
+}
+
+select {
+  margin: 15px;
+  width: 200px;
+}
+
+#name {
+  width: 300px;
+}
+
+#review {
+  width: 600px;
+}
