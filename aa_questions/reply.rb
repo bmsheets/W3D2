@@ -1,4 +1,6 @@
-require_relative 'question_databse'
+require_relative 'question_database'
+require_relative 'user'
+require_relative 'question'
 
 class Reply
   attr_accessor :question_id, :reply_id, :user_id, :body
@@ -11,6 +13,62 @@ class Reply
         replies
       WHERE
         id = ?
+    SQL
+
+    return nil if reply.empty?
+    Reply.new(reply.first)
+  end
+
+  def self.find_by_user_id(user_id)
+    reply = QuestionDatabase.instance.execute(<<-SQL, user_id)
+      SELECT
+        *
+      FROM
+        replies
+      WHERE
+        user_id = ?
+    SQL
+
+    return nil if reply.empty?
+    Reply.new(reply.first)
+  end
+
+  # Covers all depth?
+  def self.find_by_question_id(question_id)
+    reply = QuestionDatabase.instance.execute(<<-SQL, question_id)
+      SELECT
+        *
+      FROM
+        replies
+      WHERE
+        question_id = ?
+    SQL
+
+    return nil if reply.empty?
+    Reply.new(reply.first)
+  end
+
+  def author
+    User.find_by_id(@user_id)
+  end
+
+  def question
+    Question.find_by_id(@question_id)
+  end
+
+  def parent_reply
+    Reply.find_by_user_id(@reply_id)
+  end
+
+  def child_replies
+
+    reply = QuestionDatabase.instance.execute(<<-SQL, @id)
+      SELECT
+        *
+      FROM
+        replies
+      WHERE
+        reply_id = ?
     SQL
 
     return nil if reply.empty?

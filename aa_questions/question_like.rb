@@ -1,4 +1,5 @@
-require_relative 'question_databse'
+require_relative 'question_database'
+require_relative 'reply'
 
 class QuestionLike
   attr_accessor :likes, :user_id, :question_id

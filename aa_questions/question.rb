@@ -1,4 +1,5 @@
-require_relative 'question_databse'
+require_relative 'question_database'
+require_relative 'reply'
 
 class Question
   attr_accessor :title, :body, :author_id
@@ -28,6 +29,18 @@ class Question
 
     return nil if question.empty?
     Question.new(question.first)
+  end
+
+  def replies
+    Reply.find_by_question_id(@id)
+  end
+
+  def author
+    User.find_by_id(@author_id)
+  end
+
+  def followers
+    QuestionFollow.followers_for_question_id(@id)
   end
 
   def initialize(options)
