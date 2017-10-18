@@ -1,21 +1,12 @@
 require_relative 'question_database'
 require_relative 'reply'
+require_relative 'model_base'
 
-class QuestionLike
+class QuestionLike < ModelBase
   attr_accessor :likes, :user_id, :question_id
 
-  def self.find_by_id(id)
-    question_like = QuestionDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        quesiton_likes
-      WHERE
-        id = ?
-    SQL
-
-    return nil if question_like.empty?
-    QuestionLike.new(question_like.first)
+  def self.get_table
+    "question_likes"
   end
 
   def self.likers_for_question_id(question_id)

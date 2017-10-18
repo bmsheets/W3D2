@@ -1,21 +1,17 @@
 require_relative 'question_database'
 require_relative 'question'
 require_relative 'reply'
+require_relative 'model_base'
 
-class User
+class User < ModelBase
   attr_accessor :fname, :lname
-  def self.find_by_id(id)
-    user = QuestionDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        users
-      WHERE
-        id = ?
-    SQL
 
-    return nil if user.empty?
-    User.new(user.first)
+  def self.get_table
+    "users"
+  end
+
+  def self.get_columns
+    ["fname", "lname"]
   end
 
   def self.find_by_name(fname, lname)
@@ -68,26 +64,26 @@ class User
     karma.first['karma']
   end
 
-  def save
-    if @id #update
-      QuestionDatabase.instance.execute(<<-SQL, @fname, @lname, @id)
-        UPDATE
-          users
-        SET
-          fname = ?, lname = ?
-        WHERE
-          id = ?
-      SQL
-    else #create
-      QuestionDatabase.instance.execute(<<-SQL, @fname, @lname)
-        INSERT INTO
-          users (fname, lname)
-        VALUES
-          (?, ?)
-      SQL
-      @id = QuestionDatabase.instance.last_insert_row_id
-    end
-  end
+  # def save
+  #   if @id #update
+  #     QuestionDatabase.instance.execute(<<-SQL, @fname, @lname, @id)
+  #       UPDATE
+  #         users
+  #       SET
+  #         fname = ?, lname = ?
+  #       WHERE
+  #         id = ?
+  #     SQL
+  #   else #create
+  #     QuestionDatabase.instance.execute(<<-SQL, @fname, @lname)
+  #       INSERT INTO
+  #         users (fname, lname)
+  #       VALUES
+  #         (?, ?)
+  #     SQL
+  #     @id = QuestionDatabase.instance.last_insert_row_id
+  #   end
+  # end
 
   def initialize(options)
     @id = options['id']

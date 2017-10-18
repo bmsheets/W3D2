@@ -1,22 +1,13 @@
 require_relative 'question_database'
 require_relative 'user'
 require_relative 'question'
+require_relative 'model_base'
 
-class Reply
+class Reply < ModelBase
   attr_accessor :question_id, :reply_id, :user_id, :body
 
-  def self.find_by_id(id)
-    reply = QuestionDatabase.instance.execute(<<-SQL, id)
-      SELECT
-        *
-      FROM
-        replies
-      WHERE
-        id = ?
-    SQL
-
-    return nil if reply.empty?
-    Reply.new(reply.first)
+  def self.get_table
+    "replies"
   end
 
   def self.find_by_user_id(user_id)
